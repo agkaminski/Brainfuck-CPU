@@ -12,31 +12,31 @@ Instruction set is fairy simple. Opcodes are only 3-bit wide. This allows lower 
 # Opcodes
 
 Opcodes:
-000 == < (move pointer to the left)
-001 == > (move pointer to the right)
-010 == + (add 1 to the value of a current memory cell)
-011 == - (subtract 1 from the value of a current memory cell)
-100 == , (read from the I/O port)
-101 == . (write to the I/O port)
-110 == [ (begining of the loop)
-111 == ] (end of the loop)
+* 000 == < (move pointer to the left)
+* 001 == > (move pointer to the right)
+* 010 == + (add 1 to the value of a current memory cell)
+* 011 == - (subtract 1 from the value of a current memory cell)
+* 100 == , (read from the I/O port)
+* 101 == . (write to the I/O port)
+* 110 == \[ (begining of the loop)
+* 111 == ] (end of the loop)
 
 ASCII opcodes (7-bit):
-0x3C == <
-0x3E == >
-0x2B == +
-0x2D == -
-0x2C == ,
-0x2E == .
-0x5B == [
-0x5D == ]
-other == NOP
+* 0x3C == <
+* 0x3E == >
+* 0x2B == +
+* 0x2D == -
+* 0x2C == ,
+* 0x2E == .
+* 0x5B == \[
+* 0x5D == ]
+* other == NOP
 
 # Opcodes timing
 
 At start it is necesary to reset all memory locations to 0. The CPU does that automatically after reset.
 
-Operations '+', '-', ',' and '.' are always completed in one cycle. As it is necessary to load or store a memory cell from/to memory, '>' and '<' takes two cycles to finish. Opcode ']' takes two cycles on a loop finish and one on end, but '[' is a special case. If a loop condition is not met (value of the current cell is not 0) it takes one cycle. But in worst case scenario, a condition is meet at entry. It means that CPU has to find closing bracket ']' right away. This can waste many cycles, but it is a situation that should not occur, if the program is writen correctly.
+Operations '+', '-', ',' and '.' are always completed in one cycle. As it is necessary to load or store a memory cell from/to memory, '>' and '<' takes two cycles to finish. Opcode ']' takes two cycles on a loop finish and one on end, but '\[' is a special case. If a loop condition is not met (value of the current cell is not 0) it takes one cycle. But in worst case scenario, a condition is meet at entry. It means that CPU has to find closing bracket ']' right away. This can waste many cycles, but it is a situation that should not occur, if the program is writen correctly.
 
 # Files
 
