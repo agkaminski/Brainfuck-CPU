@@ -32,23 +32,23 @@ module brainfuck_cpu_tb();
 	wire mreq;
 	wire ioreq;
 	reg ready;
-	
+
 	reg ready_fsm, ready_fsm_next;
-	
+
 	brainfuck_cpu #(11,7,8) uut(clk, rst, data_i, data_o, rom_i, data_addr_o, rom_addr_o, rd, wr, mreq, ioreq, ready);
-	
+
 	always @(posedge clk, posedge rst) begin
-		if(rst)
+		if (rst)
 			ready_fsm <= 0;
 		else
 			ready_fsm <= ready_fsm_next;
 	end
-	
+
 	always @(*) begin
-		case(ready_fsm)
+		case (ready_fsm)
 			0: begin
 					ready <= 0;
-					if(rd||wr)
+					if (rd||wr)
 						ready_fsm_next <= 1;
 					else
 						ready_fsm_next <= 0;
@@ -59,16 +59,16 @@ module brainfuck_cpu_tb();
 				end
 		endcase
 	end
-	
+
 	initial begin
 		rst <= 1'b1;
 		clk <= 1'b0;
 		#100 rst <= 1'b0;
 	end
-	
+
 	always
 		#1 clk <= ~clk;
-		
+
 	RAMB16_S9 #(
       .INIT(9'h000),  // Value of output RAM registers at startup
       .SRVAL(9'h000), // Output value upon SSR assertion
@@ -168,128 +168,128 @@ module brainfuck_cpu_tb();
       .SSR(rst),    // Synchronous Set/Reset Input
       .WE(wr)       // Write Enable Input
    );
-	
+
 	always @(negedge clk)
-		if(wr && ioreq)
+		if (wr && ioreq)
 			$display("%c", data_o);
-			
+
 	always @(*) begin
-		case(rom_addr_o)
-			7'd0: rom_i <= 3'b010;		//+
-			7'd1: rom_i <= 3'b010;		//+
-			7'd2: rom_i <= 3'b010;		//+
-			7'd3: rom_i <= 3'b010;		//+
-			7'd4: rom_i <= 3'b010;		//+
-			7'd5: rom_i <= 3'b010;		//+
-			7'd6: rom_i <= 3'b010;		//+
-			7'd7: rom_i <= 3'b010;		//+
-			7'd8: rom_i <= 3'b010;		//+
-			7'd9: rom_i <= 3'b010;		//+
-			7'd10: rom_i <= 3'b110;		//[
-			7'd11: rom_i <= 3'b001;		//>
-			7'd12: rom_i <= 3'b010;		//+
-			7'd13: rom_i <= 3'b010;		//+
-			7'd14: rom_i <= 3'b010;		//+
-			7'd15: rom_i <= 3'b010;		//+
-			7'd16: rom_i <= 3'b010;		//+
-			7'd17: rom_i <= 3'b010;		//+
-			7'd18: rom_i <= 3'b010;		//+
-			7'd19: rom_i <= 3'b001;		//>
-			7'd20: rom_i <= 3'b010;		//+
-			7'd21: rom_i <= 3'b010;		//+
-			7'd22: rom_i <= 3'b010;		//+
-			7'd23: rom_i <= 3'b010;		//+
-			7'd24: rom_i <= 3'b010;		//+
-			7'd25: rom_i <= 3'b010;		//+
-			7'd26: rom_i <= 3'b010;		//+
-			7'd27: rom_i <= 3'b010;		//+
-			7'd28: rom_i <= 3'b010;		//+
-			7'd29: rom_i <= 3'b010;		//+
-			7'd30: rom_i <= 3'b001;		//>
-			7'd31: rom_i <= 3'b010;		//+
-			7'd32: rom_i <= 3'b010;		//+
-			7'd33: rom_i <= 3'b010;		//+
-			7'd34: rom_i <= 3'b001;		//>
-			7'd35: rom_i <= 3'b010;		//+
-			7'd36: rom_i <= 3'b000;		//<
-			7'd37: rom_i <= 3'b000;		//<
-			7'd38: rom_i <= 3'b000;		//<
-			7'd39: rom_i <= 3'b000;		//<
-			7'd40: rom_i <= 3'b011;		//-
-			7'd41: rom_i <= 3'b111;		//]
-			7'd42: rom_i <= 3'b001;		//>
-			7'd43: rom_i <= 3'b010;		//+
-			7'd44: rom_i <= 3'b010;		//+
-			7'd45: rom_i <= 3'b101;		//.
-			7'd46: rom_i <= 3'b001;		//>
-			7'd47: rom_i <= 3'b010;		//+
-			7'd48: rom_i <= 3'b101;		//.
-			7'd49: rom_i <= 3'b010;		//+
-			7'd50: rom_i <= 3'b010;		//+
-			7'd51: rom_i <= 3'b010;		//+
-			7'd52: rom_i <= 3'b010;		//+
-			7'd53: rom_i <= 3'b010;		//+
-			7'd54: rom_i <= 3'b010;		//+
-			7'd55: rom_i <= 3'b010;		//+
-			7'd56: rom_i <= 3'b101;		//.
-			7'd57: rom_i <= 3'b101;		//.
-			7'd58: rom_i <= 3'b010;		//+
-			7'd59: rom_i <= 3'b010;		//+
-			7'd60: rom_i <= 3'b010;		//+
-			7'd61: rom_i <= 3'b101;		//.
-			7'd62: rom_i <= 3'b001;		//>
-			7'd63: rom_i <= 3'b010;		//+
-			7'd64: rom_i <= 3'b010;		//+
-			7'd65: rom_i <= 3'b101;		//.
-			7'd66: rom_i <= 3'b000;		//<
-			7'd67: rom_i <= 3'b000;		//<
-			7'd68: rom_i <= 3'b010;		//+
-			7'd69: rom_i <= 3'b010;		//+
-			7'd70: rom_i <= 3'b010;		//+
-			7'd71: rom_i <= 3'b010;		//+
-			7'd72: rom_i <= 3'b010;		//+
-			7'd73: rom_i <= 3'b010;		//+
-			7'd74: rom_i <= 3'b010;		//+
-			7'd75: rom_i <= 3'b010;		//+
-			7'd76: rom_i <= 3'b010;		//+
-			7'd77: rom_i <= 3'b010;		//+
-			7'd78: rom_i <= 3'b010;		//+
-			7'd79: rom_i <= 3'b010;		//+
-			7'd80: rom_i <= 3'b010;		//+
-			7'd81: rom_i <= 3'b010;		//+
-			7'd82: rom_i <= 3'b010;		//+
-			7'd83: rom_i <= 3'b101;		//.
-			7'd84: rom_i <= 3'b001;		//>
-			7'd85: rom_i <= 3'b101;		//.
-			7'd86: rom_i <= 3'b010;		//+
-			7'd87: rom_i <= 3'b010;		//+
-			7'd88: rom_i <= 3'b010;		//+
-			7'd89: rom_i <= 3'b101;		//.
-			7'd90: rom_i <= 3'b011;		//-
-			7'd91: rom_i <= 3'b011;		//-
-			7'd92: rom_i <= 3'b011;		//-
-			7'd93: rom_i <= 3'b011;		//-
-			7'd94: rom_i <= 3'b011;		//-
-			7'd95: rom_i <= 3'b011;		//-
-			7'd96: rom_i <= 3'b101;		//.
-			7'd97: rom_i <= 3'b011;		//-
-			7'd98: rom_i <= 3'b011;		//-
-			7'd99: rom_i <= 3'b011;		//-
-			7'd100: rom_i <= 3'b011;	//-
-			7'd101: rom_i <= 3'b011;	//-
-			7'd102: rom_i <= 3'b011;	//-
-			7'd103: rom_i <= 3'b011;	//-
-			7'd104: rom_i <= 3'b011;	//-
-			7'd105: rom_i <= 3'b101;	//.
-			7'd106: rom_i <= 3'b001;	//>
-			7'd107: rom_i <= 3'b010;	//+
-			7'd108: rom_i <= 3'b101;	//.
-			7'd109: rom_i <= 3'b001;	//>
-			7'd110: rom_i <= 3'b101;	//.
-			7'd111: rom_i <= 3'b110;	//[
-			7'd112: rom_i <= 3'b010;	//+
-			7'd113: rom_i <= 3'b011;	//-
-			7'd114: rom_i <= 3'b111;	//]
+		case (rom_addr_o)
+			7'd0: rom_i <= 3'b010;    //+
+			7'd1: rom_i <= 3'b010;    //+
+			7'd2: rom_i <= 3'b010;    //+
+			7'd3: rom_i <= 3'b010;    //+
+			7'd4: rom_i <= 3'b010;    //+
+			7'd5: rom_i <= 3'b010;    //+
+			7'd6: rom_i <= 3'b010;    //+
+			7'd7: rom_i <= 3'b010;    //+
+			7'd8: rom_i <= 3'b010;    //+
+			7'd9: rom_i <= 3'b010;    //+
+			7'd10: rom_i <= 3'b110;   //[
+			7'd11: rom_i <= 3'b001;   //>
+			7'd12: rom_i <= 3'b010;   //+
+			7'd13: rom_i <= 3'b010;   //+
+			7'd14: rom_i <= 3'b010;   //+
+			7'd15: rom_i <= 3'b010;   //+
+			7'd16: rom_i <= 3'b010;   //+
+			7'd17: rom_i <= 3'b010;   //+
+			7'd18: rom_i <= 3'b010;   //+
+			7'd19: rom_i <= 3'b001;   //>
+			7'd20: rom_i <= 3'b010;   //+
+			7'd21: rom_i <= 3'b010;   //+
+			7'd22: rom_i <= 3'b010;   //+
+			7'd23: rom_i <= 3'b010;   //+
+			7'd24: rom_i <= 3'b010;   //+
+			7'd25: rom_i <= 3'b010;   //+
+			7'd26: rom_i <= 3'b010;   //+
+			7'd27: rom_i <= 3'b010;   //+
+			7'd28: rom_i <= 3'b010;   //+
+			7'd29: rom_i <= 3'b010;   //+
+			7'd30: rom_i <= 3'b001;   //>
+			7'd31: rom_i <= 3'b010;   //+
+			7'd32: rom_i <= 3'b010;   //+
+			7'd33: rom_i <= 3'b010;   //+
+			7'd34: rom_i <= 3'b001;   //>
+			7'd35: rom_i <= 3'b010;   //+
+			7'd36: rom_i <= 3'b000;   //<
+			7'd37: rom_i <= 3'b000;   //<
+			7'd38: rom_i <= 3'b000;   //<
+			7'd39: rom_i <= 3'b000;   //<
+			7'd40: rom_i <= 3'b011;   //-
+			7'd41: rom_i <= 3'b111;   //]
+			7'd42: rom_i <= 3'b001;   //>
+			7'd43: rom_i <= 3'b010;   //+
+			7'd44: rom_i <= 3'b010;   //+
+			7'd45: rom_i <= 3'b101;   //.
+			7'd46: rom_i <= 3'b001;   //>
+			7'd47: rom_i <= 3'b010;   //+
+			7'd48: rom_i <= 3'b101;   //.
+			7'd49: rom_i <= 3'b010;   //+
+			7'd50: rom_i <= 3'b010;   //+
+			7'd51: rom_i <= 3'b010;   //+
+			7'd52: rom_i <= 3'b010;   //+
+			7'd53: rom_i <= 3'b010;   //+
+			7'd54: rom_i <= 3'b010;   //+
+			7'd55: rom_i <= 3'b010;   //+
+			7'd56: rom_i <= 3'b101;   //.
+			7'd57: rom_i <= 3'b101;   //.
+			7'd58: rom_i <= 3'b010;   //+
+			7'd59: rom_i <= 3'b010;   //+
+			7'd60: rom_i <= 3'b010;   //+
+			7'd61: rom_i <= 3'b101;   //.
+			7'd62: rom_i <= 3'b001;   //>
+			7'd63: rom_i <= 3'b010;   //+
+			7'd64: rom_i <= 3'b010;   //+
+			7'd65: rom_i <= 3'b101;   //.
+			7'd66: rom_i <= 3'b000;   //<
+			7'd67: rom_i <= 3'b000;   //<
+			7'd68: rom_i <= 3'b010;   //+
+			7'd69: rom_i <= 3'b010;   //+
+			7'd70: rom_i <= 3'b010;   //+
+			7'd71: rom_i <= 3'b010;   //+
+			7'd72: rom_i <= 3'b010;   //+
+			7'd73: rom_i <= 3'b010;   //+
+			7'd74: rom_i <= 3'b010;   //+
+			7'd75: rom_i <= 3'b010;   //+
+			7'd76: rom_i <= 3'b010;   //+
+			7'd77: rom_i <= 3'b010;   //+
+			7'd78: rom_i <= 3'b010;   //+
+			7'd79: rom_i <= 3'b010;   //+
+			7'd80: rom_i <= 3'b010;   //+
+			7'd81: rom_i <= 3'b010;   //+
+			7'd82: rom_i <= 3'b010;   //+
+			7'd83: rom_i <= 3'b101;   //.
+			7'd84: rom_i <= 3'b001;   //>
+			7'd85: rom_i <= 3'b101;   //.
+			7'd86: rom_i <= 3'b010;   //+
+			7'd87: rom_i <= 3'b010;   //+
+			7'd88: rom_i <= 3'b010;   //+
+			7'd89: rom_i <= 3'b101;   //.
+			7'd90: rom_i <= 3'b011;   //-
+			7'd91: rom_i <= 3'b011;   //-
+			7'd92: rom_i <= 3'b011;   //-
+			7'd93: rom_i <= 3'b011;   //-
+			7'd94: rom_i <= 3'b011;   //-
+			7'd95: rom_i <= 3'b011;   //-
+			7'd96: rom_i <= 3'b101;   //.
+			7'd97: rom_i <= 3'b011;   //-
+			7'd98: rom_i <= 3'b011;   //-
+			7'd99: rom_i <= 3'b011;   //-
+			7'd100: rom_i <= 3'b011;  //-
+			7'd101: rom_i <= 3'b011;  //-
+			7'd102: rom_i <= 3'b011;  //-
+			7'd103: rom_i <= 3'b011;  //-
+			7'd104: rom_i <= 3'b011;  //-
+			7'd105: rom_i <= 3'b101;  //.
+			7'd106: rom_i <= 3'b001;  //>
+			7'd107: rom_i <= 3'b010;  //+
+			7'd108: rom_i <= 3'b101;  //.
+			7'd109: rom_i <= 3'b001;  //>
+			7'd110: rom_i <= 3'b101;  //.
+			7'd111: rom_i <= 3'b110;  //[
+			7'd112: rom_i <= 3'b010;  //+
+			7'd113: rom_i <= 3'b011;  //-
+			7'd114: rom_i <= 3'b111;  //]
 			7'd115: rom_i <= 3'b000;
 			7'd116: rom_i <= 3'b000;
 			7'd117: rom_i <= 3'b000;
@@ -303,7 +303,7 @@ module brainfuck_cpu_tb();
 			7'd125: rom_i <= 3'b000;
 			7'd126: rom_i <= 3'b000;
 			7'd127: rom_i <= 3'b000;
-			
+
 		endcase
 	end
 
