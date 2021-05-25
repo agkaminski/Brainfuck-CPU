@@ -48,8 +48,6 @@ Second file is a testbench - "brainfuck_cpu_tb.v". It demonstrates the execution
 
 brainfuck_cpu.v accepts 3 parameters:
 
-DATA_ADDR_WIDTH - defines the width of data memory address bus and in a consequence the size of this memory.
-
-ROM_ADDR_WIDTH - defines the width of program memory address bus and in a consequence the size of this memory. Note that Brainfuck language requires a lot of program memory. Simple "Hello World!" program uses 115 cells.
-
-STACK_DEPTH - defines a depth of the stack. Stack is used to keep track of the execution of loops. It's depth imposes maximal level of loops nesting supported.
+* DATA_ADDR_WIDTH - defines the width of data memory address bus and in a consequence the size of this memory.
+* ROM_ADDR_WIDTH - defines the width of program memory address bus and in a consequence the size of this memory. Note that Brainfuck language requires a lot of program memory. Simple "Hello World!" program uses 115 cells.
+* STACK_DEPTH - defines a depth of the stack. Stack is used to keep track of the execution of loops. It's depth imposes maximal level of loops nesting supported.
