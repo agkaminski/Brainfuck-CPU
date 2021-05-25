@@ -42,7 +42,7 @@ module brainfuck_cpu #(parameter DATA_ADDR_WIDTH = 8, ROM_ADDR_WIDTH = 12, STACK
 );
 
 	// FSM states
-	localparam 	RAM_CLEAR = 3'b001,
+	localparam  RAM_CLEAR = 3'b001,
 	            RUN = 3'b010,
 	            UPDATE_DATA = 3'b100,
 	            INSTANT_ZERO_EXEPTION_RECOVERY = 3'b101,
